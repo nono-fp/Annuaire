@@ -1,0 +1,27 @@
+
+from flask import Flask, render_template, request
+import pandas
+import csv
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+ return render_template('index.html')
+
+@app.route('/ajouter',methods = ['GET'])
+def ajouter():
+  result=request.args
+  nom=result['nom']
+  numero=result['resultat']
+  with open('repertoire.csv', 'w', newline='') as file:
+    writer = csv.writer(file, delimiter=';')
+    writer.writerow(["nom", "numero"])
+    writer.writerows([[nom,numero]])
+  return render_template("ajouter.html",nom=nom)
+
+@app.route('/resultat',methods = ['GET'])
+def resultat():
+    return render_template('resultat.html')
+
+app.run(debug=True)
