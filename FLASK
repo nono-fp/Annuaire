@@ -1,7 +1,6 @@
-
 from flask import Flask, render_template, request
 import pandas
-import csv
+
 
 app = Flask(__name__)
 
@@ -9,19 +8,18 @@ app = Flask(__name__)
 def index():
  return render_template('index.html')
 
-@app.route('/ajouter',methods = ['GET'])
+@app.route('/ajouter')
 def ajouter():
-  result=request.args
-  nom=result['nom']
-  numero=result['resultat']
-  with open('repertoire.csv', 'w', newline='') as file:
-    writer = csv.writer(file, delimiter=';')
-    writer.writerow(["nom", "numero"])
-    writer.writerows([[nom,numero]])
-  return render_template("ajouter.html",nom=nom)
+  return render_template("ajouter.html",)
 
 @app.route('/resultat',methods = ['GET'])
 def resultat():
-    return render_template('resultat.html')
+    result=request.args
+    nom=result['nom']
+    numero=result['numero']
+    data = {"nom": [nom], "age": [numero]}
+    df = pandas.DataFrame(data)
+    df.to_csv('mon_fichier.csv', index=False)
+    return render_template('resultat.html',nom=nom,numero=numero)
 
 app.run(debug=True)
