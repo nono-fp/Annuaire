@@ -12,14 +12,30 @@ def index():
 def ajouter():
   return render_template("ajouter.html",)
 
+@app.route('/rechercher')
+def rechercher():
+  return render_template("rechercher.html",)
+
 @app.route('/resultat',methods = ['GET'])
 def resultat():
     result=request.args
     nom=result['nom']
     numero=result['numero']
-    data = {"nom": [nom], "age": [numero]}
+    data = pandas.read_csv("mon_fichier.csv")
+    data = data.append(pandas.DataFrame({"nom":[nom] , "numero": [numero]}),ignore_index = True)
     df = pandas.DataFrame(data)
     df.to_csv('mon_fichier.csv', index=False)
     return render_template('resultat.html',nom=nom,numero=numero)
+
+@app.route('/resultat2',methods = ['GET'])
+def resultat2():
+    result=request.args
+    nom=result['nom']
+    data = pandas.read_csv("mon_fichier.csv")
+    tab_numero=data.loc[data["nom"]==nom,["numero"]]
+    tab_numero.index = range(0,1,1)
+    numero=tab_numero.loc[0,"numero"]
+    return render_template('resultat2.html',nom=nom,numero=numero)
+
 
 app.run(debug=True)
