@@ -2,18 +2,17 @@
  <html lang="fr">
 	 <head>
 		 <meta charset="utf-8">
-		 <title>Repertoire</title>
-		 <link href="ajouter.css" rel="stylesheet"/>
+		 <title>Annuaire</title>
+     	<link rel="stylesheet" href="{{ url_for('static', filename='CSS/index.css') }}" />
 	 </head>
 	 <body>
-  <div class="container">
-		 <form action="http://localhost:5000/resultat" method="get">
-     
-       <h1>Annuaire</h1>
-       <p>Ajouter un numéro</p>
-				 <input type="text" name="nom" placeholder="Nom" />
-		 <input type="tel" name="numero" placeholder="Numéro" />
-				 <input type="submit" value="Envoyer" />
+<div class="container">
+		<h1>Annuaire</h1>
+		 <form action="http://localhost:5000/ajouter" method="get">
+       <input type="submit" value="Ajouter un numéro" /></br>
+	   </form>
+		<form action="http://localhost:5000/rechercher" method="get">
+		<input type="submit" value="Rechercher un numéro" />
 		 </form>
   <div class="drop drop-1"></div>
   <div class="drop drop-2"></div>
