@@ -3,14 +3,16 @@
 	 <head>
 		 <meta charset="utf-8">
 		 <title>Annuaire</title>
-     	<link href="index.css" rel="stylesheet"/>
+     	<link rel="stylesheet" href="{{ url_for('static', filename='CSS/index.css') }}" />
 	 </head>
 	 <body>
 <div class="container">
+		<h1>Annuaire</h1>
 		 <form action="http://localhost:5000/ajouter" method="get">
-         <h1>Annuaire</h1>
-       <input type="submit" value="Rechercher un numéro" /></br>
-				 <input type="submit" value="Ajouter un numéro" />
+       <input type="submit" value="Ajouter un numéro" /></br>
+	   </form>
+		<form action="http://localhost:5000/rechercher" method="get">
+		<input type="submit" value="Rechercher un numéro" />
 		 </form>
   <div class="drop drop-1"></div>
   <div class="drop drop-2"></div>
