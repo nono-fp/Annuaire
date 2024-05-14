@@ -2,14 +2,24 @@
  <html lang="fr">
 	 <head>
 		 <meta charset="utf-8">
-		 <title>Repetoire</title>
-		<link href="index.css" rel="stylesheet"/>
+		 <title>Annuaire</title>
+     	<link rel="stylesheet" href="{{ url_for('static', filename='CSS/index.css') }}" />
 	 </head>
 	 <body>
+<div class="container">
+		<h1>Annuaire</h1>
 		 <form action="http://localhost:5000/ajouter" method="get">
-				 <input type="submit" value="Rechercher" />
-				 <input type="submit" value="Ajouter" />
+       <input type="submit" value="Ajouter un numéro" /></br>
+	   </form>
+		<form action="http://localhost:5000/rechercher" method="get">
+		<input type="submit" value="Rechercher un numéro" />
 		 </form>
+  <div class="drop drop-1"></div>
+  <div class="drop drop-2"></div>
+  <div class="drop drop-3"></div>
+  <div class="drop drop-4"></div>
+  <div class="drop drop-5"></div>
+</div>
 	 </body>
  </html>
 
@@ -36,5 +46,72 @@
 		</head>
 		<body>
 			<p>Ok votre nom et numero ont bien été enregistré</p>
+			<form action="http://localhost:5000" method="get">
+				 <input type="submit" value="Revenir à l'annuaire" />
+		 </form>
 		</body>
 	</html>
+<!doctype html>
+ <html lang="fr">
+	 <head>
+		 <meta charset="utf-8">
+		 <title>Repertoire</title>
+		 <link rel="stylesheet" href="{{ url_for('static', filename='CSS/ajouter.css') }}"/>
+	 </head>
+	 <body>
+  <div class="container">
+		 <form action="http://localhost:5000/resultat" method="get">
+     
+       <h1>Annuaire</h1>
+       <p>Ajouter un numéro</p>
+				 <input type="text" name="nom" placeholder="Nom" />
+		 <input type="tel" name="numero" placeholder="Numéro" />
+				 <input type="submit" value="Envoyer" />
+		 </form>
+  <div class="drop drop-1"></div>
+  <div class="drop drop-2"></div>
+  <div class="drop drop-3"></div>
+  <div class="drop drop-4"></div>
+  <div class="drop drop-5"></div>
+</div>
+	 </body>
+ </html>
+<!doctype html>
+ <html lang="fr">
+	 <head>
+		 <meta charset="utf-8">
+		 <title>Repertoire</title>
+	 </head>
+	 <body>
+		 <form action="http://localhost:5000/resultat2" method="get">
+				 <label>Nom</label> : <input type="text" name="nom" />
+				 <input type="submit" value="Envoyer" />
+		 </form>
+	 </body>
+ </html>
+<!doctype html>
+	<html lang="fr">
+		<head>
+			<meta charset="utf-8">
+			<title>Résultat</title>
+		</head>
+		<body>
+			<p>Le numéro de {{nom}} est {{numero}}</p>
+			<form action="http://localhost:5000" method="get">
+				 <input type="submit" value="Revenir à l'annuaire" />
+		 </form>
+		</body>
+	</html>
+<!doctype html>
+ <html lang="fr">
+	 <head>
+		 <meta charset="utf-8">
+		 <title>Erreur</title>
+	 </head>
+	 <body>
+		Votre numero existe déjà
+		 <form action="http://localhost:5000/ajouter" method="get">
+				 <input type="submit" value="Revenir au formulaire" />
+		 </form>
+	 </body>
+ </html>
