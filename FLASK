@@ -22,10 +22,21 @@ def resultat():
     nom=result['nom']
     numero=result['numero']
     data = pandas.read_csv("mon_fichier.csv")
+    tab_num=data.loc[:,"numero"]
+    for num in tab_num :
+        if num==numero:
+            return render_template('erreur.html',)
+    if nom=='' and numero=='':
+        return render_template('erreur.html',)
+    numero=int(numero)
     data = data.append(pandas.DataFrame({"nom":[nom] , "numero": [numero]}),ignore_index = True)
     df = pandas.DataFrame(data)
     df.to_csv('mon_fichier.csv', index=False)
     return render_template('resultat.html',nom=nom,numero=numero)
+
+@app.route('/erreur',methods = ['GET'])
+def erreur():
+    return render_template('ajouter.html',)
 
 @app.route('/resultat2',methods = ['GET'])
 def resultat2():
@@ -33,8 +44,7 @@ def resultat2():
     nom=result['nom']
     data = pandas.read_csv("mon_fichier.csv")
     tab_numero=data.loc[data["nom"]==nom,["numero"]]
-    tab_numero.index = range(0,1,1)
-    numero=tab_numero.loc[0,"numero"]
+    numero=int(tab_numero.iloc[0][0])
     return render_template('resultat2.html',nom=nom,numero=numero)
 
 
