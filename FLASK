@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, request
 import pandas
 
@@ -6,46 +7,113 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
- return render_template('index.html')
+    """
+    Cette fonction renvoie à l'utilisateur la page index
+    """
+    return render_template('index.html')
 
 @app.route('/ajouter')
 def ajouter():
-  return render_template("ajouter.html",)
+    """
+    Cette fonction renvoie à l'utilisateur la page ajouter
+    """
+    return render_template("ajouter.html",)
 
 @app.route('/rechercher')
 def rechercher():
-  return render_template("rechercher.html",)
+    """
+    Cette fonction renvoie à l'utilisateur la page rechercher
+    """
+    return render_template("rechercher.html",)
 
 @app.route('/resultat',methods = ['GET'])
 def resultat():
-    result=request.args
-    nom=result['nom']
-    numero=result['numero']
-    data = pandas.read_csv("mon_fichier.csv")
-    tab_num=data.loc[:,"numero"]
-    for num in tab_num :
-        if num==numero:
-            return render_template('erreur.html',)
-    if nom=='' and numero=='':
-        return render_template('erreur.html',)
-    numero=int(numero)
-    data = data.append(pandas.DataFrame({"nom":[nom] , "numero": [numero]}),ignore_index = True)
-    df = pandas.DataFrame(data)
-    df.to_csv('mon_fichier.csv', index=False)
-    return render_template('resultat.html',nom=nom,numero=numero)
+    """
+    Cette fonction ajouter un prenom et un numero dans l'annuaire'
 
-@app.route('/erreur',methods = ['GET'])
-def erreur():
-    return render_template('ajouter.html',)
+    Returns
+    -------
+    
+    Renvoie la page du résultat et envoie les données au serveur
+
+    """
+    result=request.args
+    # on recupere ce que renvoie l'utilisateur
+    nom=result['nom']
+    # on prend le nom renvoyé
+    numero=result['numero']
+    # on prend le numero renvoyé
+    data = pandas.read_csv("mon_fichier.csv")
+    # on recupere le fichier csv 
+    tab_num=data.loc[:,"numero"]
+    # on recupere tous les numeros du csv
+    tab_name = data.loc[:,"nom"]
+    # on recupere tous les noms du csv
+    for name in tab_name:
+        # on parcourt tous les noms du tableau
+        if name==nom:
+            # si le nom donnée par l'utilisateur existe deja
+            return render_template('erreur.html',)
+            # on retourne la page erreur a l'utilisateur
+    if nom=='' or numero=='':
+        # si le nom ou le numero est vide
+        return render_template('erreur.html',)
+    # on retourne la page erreur a l'utilisateur
+    numero=int(numero)
+    # on s'assure que le numero soit un entier
+    for num in tab_num :
+        # on parcourt tous les numeros du tableau
+        if num==numero:
+            # si le numero donnée par l'utilisateur existe deja
+            return render_template('erreur.html',)
+            # on retourne la page erreur a l'utilisateur
+    data = data.append(pandas.DataFrame({"nom":[nom] , "numero": [numero]}),ignore_index = True)
+    # on ecrit les données du nom et du numero dans un tableau avec les index des lignes et colonnes
+    df = pandas.DataFrame(data)
+    # on transforme le tableau en dataframe
+    df.to_csv('mon_fichier.csv', index=False)
+    # on ecrit la dataframe dans le fichier csv
+    return render_template('resultat.html',nom=nom,numero=numero)
+    # on renvoie la page du résultat et envoie les données au serveur
+
 
 @app.route('/resultat2',methods = ['GET'])
 def resultat2():
-    result=request.args
-    nom=result['nom']
-    data = pandas.read_csv("mon_fichier.csv")
-    tab_numero=data.loc[data["nom"]==nom,["numero"]]
-    numero=int(tab_numero.iloc[0][0])
-    return render_template('resultat2.html',nom=nom,numero=numero)
+    """
+    Cette fonction recherche le nom et renvoie le numero de la personne donnée
 
+    Returns
+    -------
+    Renvoie la page du résultat et envoie le numero au serveur
+
+    """
+    resultat=False
+    # on met le resultat à false pour verifier si le nom donnée est dans le repertoire
+    result=request.args
+    # on recupere ce que renvoie l'utilisateur
+    nom=result['nom']
+    # on prend le nom renvoyé
+    data = pandas.read_csv("mon_fichier.csv")
+    # on recupere le fichier csv 
+    tab_name = data.loc[:,"nom"]
+    # on recupere tous les noms du csv
+    for name in tab_name:
+        # on parcourt tous les noms du tableau
+        if name==nom:
+            # si le nom donnée par l'utilisateur existe deja
+            resultat=True
+            # on met le resultat a true
+    if resultat==True:   
+        # si le resultat est à true
+        tab_numero=data.loc[data["nom"]==nom,["numero"]]
+        # on crée un tableau avec le numero du nom recherché
+        numero=int(tab_numero.iloc[0][0])
+        # on donne au numero la valeur de la case du tableau
+        return render_template('resultat2.html',nom=nom,numero=numero)
+        # on renvoie la page du résultat et envoie les données au serveur
+    else :
+        # si le resultat n'est pas a true
+        return render_template('erreur.html',)
+        # on retourne la page erreur a l'utilisateur
 
 app.run(debug=True)
