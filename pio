@@ -1,0 +1,99 @@
+# -*- coding: utf-8 -*-
+"""
+FAIVRE-PIERRET
+Noémie
+TP 02
+"""
+from unidecode import unidecode
+
+""" Activité 1 """
+
+
+
+def puissance(n):
+    """
+    La fonction puissance prend un paramètre n et renvoie 2n
+
+    Parameters
+    ----------
+    n : INT
+        Entier mit à la puissance de 2
+
+    Returns
+    -------
+    INT
+        Renvoie la puissance de 2
+
+    """
+    
+    #on teste si n est égal à 0
+    if n==0:
+        #on retourne 1
+        return 1
+    #sinon
+    else:
+        return  2 * puissance(n-1)
+
+
+"""Activité 2"""
+#liste=[:] copie de la liste
+#liste=[1:] copie de la liste à partir de rang 1
+#liste = [:-1] copie de la liste jusqu'à l'avant dernier élément
+#pour faire de la récurrence sur une liste il faut d'abord la copier
+
+
+
+def somme_liste(liste):
+    if len(liste)==0:
+        return 0
+    else:
+        return liste[0] + somme_liste(liste[1:])
+
+"""PALINDROME"""
+"""Activité 3"""
+
+def compresse(texte): 
+     texte= unidecode(texte)
+     texte =texte.replace(" ","")
+     texte=texte.lower()
+     return texte
+ 
+    
+"""Activité 4"""
+ 
+def raccourcir(texte):
+   return texte[1:-1]
+
+
+"""Activité 5"""
+#[0] premier
+#[-1] 
+
+def est_palindrome(texte):
+    """
+    Cette fonction teste si le texte est un palindrome'
+
+    Parameters
+    ----------
+    texte : str
+        Texte que l'on va tester'
+
+    Returns
+    -------
+    Bool
+        Renvoie si la fonction est un palindrome
+
+    """
+    #on appelle la fonction compresse
+    texte=compresse(texte)
+    #on teste si le texte ne contient pas de lettres
+    if texte=="":
+        return True
+    elif len(texte)==1:
+        return True
+    elif texte[0]==texte[-1]:
+        print(raccourcir(texte))
+        return est_palindrome(raccourcir(texte))
+    else:
+        return False
+    
